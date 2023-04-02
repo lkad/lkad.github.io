@@ -1,0 +1,3 @@
+export K8S_MASTER=https://192.168.8.147:6443
+./spark-submit     --master k8s://$K8S_MASTER --deploy-mode cluster  \
+ -c spark.executor.instances=2    -c spark.ui.prometheus.enabled=true      -c spark.kubernetes.driver.annotation.prometheus.io/scrape=true      -c spark.kubernetes.driver.annotation.prometheus.io/path=/metrics/executors/prometheus/      -c spark.kubernetes.driver.annotation.prometheus.io/port=4040      -c spark.kubernetes.container.image=mesosphere/spark:spark-3.1.1-hadoop-2.9-k8s      --class org.apache.spark.examples.SparkPi local:///opt/spark/examples/jars/spark-examples_2.12-3.1.1.jar 20000
