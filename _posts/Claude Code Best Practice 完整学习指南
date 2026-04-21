@@ -1,0 +1,658 @@
+# Claude Code Best Practice 完整学习指南
+
+> 📚 本文档是对 [Claude Code Best Practice](https://github.com/shanraisshan/claude-code-best-practice) 开源项目的系统性整理，从 **vibe coding** 逐步升级到 **Agentic Engineering**，适合想要掌握 AI 编程工作流的开发者学习参考。
+
+---
+
+## 🧠 一、核心概念总览
+
+| 概念 | 文件位置 | 类型 | 说明 |
+|------|---------|------|------|
+| Subagents | `.claude/agents/<name>.md` | 智能体 | 独立上下文中的自主执行者 |
+| Commands | `.claude/commands/<name>.md` | 命令 | 斜杠命令，知识注入现有上下文 |
+| Skills | `.claude/skills/<name>/SKILL.md` | 技能 | 可配置、可预加载的技能模块 |
+| Hooks | `.claude/hooks/` | 钩子 | 特定事件触发的处理器 |
+| MCP Servers | `.mcp.json` | 协议 | Model Context Protocol 连接外部工具 |
+| Memory | `CLAUDE.md` | 记忆 | 持久化上下文和 @path 导入 |
+| Workflows | `.claude/commands/` | 工作流 | 多步骤任务自动化编排 |
+
+---
+
+## 🤖 二、Subagents（子智能体）
+
+### 2.1 概念定义
+
+Subagents 是 Claude Code 中的**独立自主执行者**，运行在独立上下文中，可自定义工具、权限、模型和记忆。它们是 Claude Code 向 Agentic Engineering 升级的核心能力。
+
+### 2.2 文件位置与结构
+
+```
+.claude/
+└── agents/
+    ├── code-review.md      # 代码审查子智能体
+    ├── bug-hunter.md       # Bug 追踪子智能体
+    └── doc-writer.md        # 文档编写子智能体
+```
+
+### 2.3 子智能体配置文件详解
+
+```markdown
+# .claude/agents/code-review.md
+
+## 身份与目标
+你是一个专业的代码审查专家，专注于发现安全漏洞和性能问题。
+
+## 工具权限
+允许使用工具：Read, Glob, Grep, WebSearch
+禁止使用工具：Bash, Write, Edit（防止自我修改）
+
+## 模型选择
+model: claude-opus-4-5
+thinking: true
+
+## 记忆
+memory:
+  - .claude/memory/code-patterns.md  # 代码审查模式库
+  - .claude/memory/security-rules.md # 安全规则库
+
+## 行为约束
+- 只读操作，不修改任何文件
+- 发现问题后生成结构化报告
+- 重大问题立即上报
+```
+
+### 2.4 使用场景
+
+| 场景 | 说明 | 示例 |
+|------|------|------|
+| 并行处理 | 多个子 Agent 并行处理同一代码库的不同部分 | 前端审查 + 后端审查同时进行 |
+| 专业分工 | 不同子 Agent 专注不同领域 | 安全审查、性能分析、代码风格 |
+| 隔离执行 | 危险操作在隔离环境中执行 | 删除文件、修改配置 |
+| 长期任务 | 后台运行，不阻塞主流程 | 大型重构、批量代码修改 |
+
+### 2.5 与主 Agent 的协作模式
+
+```mermaid
+sequenceDiagram
+    participant User as 用户
+    participant Main as Main Agent
+    participant Sub1 as Subagent-1
+    participant Sub2 as Subagent-2
+    
+    User->>Main: 发起复杂任务
+    Main->>Sub1: 分配代码审查任务
+    Main->>Sub2: 分配文档生成任务
+    Sub1-->>Main: 审查报告
+    Sub2-->>Main: 文档草稿
+    Main-->>User: 汇总结果
+```
+
+---
+
+## ⌨️ 三、Commands（命令）
+
+### 3.1 概念定义
+
+Commands 是斜杠命令（`/command-name`），用于将**知识注入现有上下文**，实现工作流编排。它们是用户与 Claude Code 交互的主要方式之一。
+
+### 3.2 文件位置与结构
+
+```
+.claude/
+└── commands/
+    ├── /review.md          # 代码审查命令
+    ├── /refactor.md        # 重构命令
+    ├── /test.md            # 测试生成命令
+    └── /deploy.md          # 部署命令
+```
+
+### 3.3 命令文件详解
+
+```markdown
+# .claude/commands/review.md
+
+## 触发条件
+当用户输入 /review 或 #review 时激活
+
+## 注入内容
+你是一个专业的代码审查助手。请对当前代码进行以下审查：
+
+1. **安全性**：检查 SQL 注入、XSS、敏感信息暴露
+2. **性能**：检查 N+1 查询、内存泄漏、循环效率
+3. **代码风格**：检查命名规范、注释完整性
+4. **测试覆盖**：检查单元测试、集成测试覆盖度
+
+## 输出格式
+生成结构化审查报告，包含：
+- 问题列表（严重程度 + 位置 + 建议修复方案）
+- 代码评分（1-10）
+- 改进建议优先级排序
+```
+
+### 3.4 内置命令速查
+
+| 命令 | 用途 | 常见参数 |
+|------|------|----------|
+| `/review` | 代码审查 | `--scope all` `--severity high` |
+| `/refactor` | 代码重构 | `--target <function>` `--mode safe` |
+| `/test` | 生成测试 | `--framework jest` `--coverage 80` |
+| `/explain` | 解释代码 | `--level beginner` |
+| `/fix` | 修复问题 | `--dry-run` |
+| `/migrate` | 代码迁移 | `--from js` `--to ts` |
+
+---
+
+## 🛠️ 四、Skills（技能）
+
+### 4.1 概念定义
+
+Skills 是可配置、可预加载的技能模块，支持**上下文分叉**和**渐进式披露**。与 Commands 的区别在于：Commands 是即时注入，Skills 是持久化配置。
+
+### 4.2 文件位置与结构
+
+```
+.claude/
+└── skills/
+    └── code-analysis/
+        ├── SKILL.md           # 技能定义（必需）
+        ├── context/           # 技能专属上下文
+        │   ├── patterns.md    # 代码模式库
+        │   └── rules.md       # 分析规则
+        └── assets/            # 技能资源
+            └── logo.png
+```
+
+### 4.3 SKILL.md 结构详解
+
+```markdown
+# SKILL.md - 代码分析技能
+
+## 技能元数据
+name: code-analysis
+version: 1.0.0
+description: 深度代码分析与优化建议
+author: team
+tags: [analysis, performance, security]
+
+## 触发条件
+当用户提到以下关键词时自动激活：
+- "分析代码"
+- "性能问题"
+- "代码优化"
+- "审查这个"
+
+## 能力范围
+capabilities:
+  - 代码复杂度分析
+  - 性能瓶颈检测
+  - 安全漏洞扫描
+  - 代码质量评分
+
+## 上下文预加载
+load_on_activation:
+  - @context/patterns.md    # 加载代码模式库
+  - @context/rules.md       # 加载分析规则
+
+## 渐进式披露策略
+progressive_disclosure:
+  level_1: 快速扫描结果（5秒内）
+  level_2: 详细分析报告（30秒内）
+  level_3: 深度诊断 + 修复建议（2分钟内）
+```
+
+### 4.4 Skills vs Commands vs Subagents 对比
+
+| 特性 | Skills | Commands | Subagents |
+|------|--------|----------|-----------|
+| 持久化 | ✅ 长期配置 | ❌ 即时注入 | ✅ 独立运行 |
+| 上下文 | 共享主上下文 | 共享主上下文 | 独立上下文 |
+| 触发方式 | 关键词/场景 | 斜杠命令 | 显式调用 |
+| 工具权限 | 继承 | 继承 | 可独立配置 |
+| 适用场景 | 领域专家 | 工作流步骤 | 并行任务 |
+
+---
+
+## 🪝 五、Hooks（钩子）
+
+### 5.1 概念定义
+
+Hooks 是**特定事件触发**的脚本、HTTP 调用或 Agent 处理器，用于扩展 Claude Code 的行为，实现自动化响应。
+
+### 5.2 文件位置与结构
+
+```
+.claude/
+└── hooks/
+    ├── pre-commit/         # Git pre-commit 钩子
+    │   ├── script.sh       # Shell 脚本
+    │   └── check-quality.http  # HTTP 钩子
+    ├── on-error/           # 错误处理钩子
+    │   └── notify.slack    # 错误通知
+    └── on-complete/        # 任务完成钩子
+        └── generate-report.md
+```
+
+### 5.3 钩子类型详解
+
+| 事件 | 触发时机 | 典型用途 |
+|------|----------|----------|
+| `pre-run` | 运行前 | 检查代码格式、运行 lint |
+| `post-run` | 运行后 | 生成测试报告、更新文档 |
+| `on-error` | 错误发生时 | 发送告警通知、记录日志 |
+| `on-complete` | 任务完成 | 汇总结果、触发下游流程 |
+| `pre-commit` | Git commit 前 | 自动化代码审查 |
+| `on-file-change` | 文件变更时 | 自动运行相关测试 |
+
+### 5.4 钩子配置示例
+
+```json
+// .claude/settings.json
+{
+  "hooks": {
+    "pre-run": {
+      "type": "script",
+      "script": "./hooks/pre-run/check-format.sh",
+      "timeout": 30
+    },
+    "on-error": {
+      "type": "http",
+      "url": "https://slack.webhook.com/xxx",
+      "method": "POST",
+      "body": {
+        "error": "${error.message}",
+        "file": "${error.file}",
+        "line": "${error.line}"
+      }
+    }
+  }
+}
+```
+
+---
+
+## 🌐 六、MCP Servers（Model Context Protocol）
+
+### 6.1 概念定义
+
+MCP（Model Context Protocol）是一种**连接外部工具、数据库、API 的协议**，让 Claude Code 能够与外部系统深度集成。
+
+### 6.2 配置文件
+
+```json
+// .mcp.json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./workspace"],
+      "env": {}
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost:5432/mydb"],
+      "env": {
+        "PGPASSWORD": "${env.PGPASSWORD}"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${env.SLACK_BOT_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+### 6.3 常用 MCP Server 列表
+
+| MCP Server | 用途 | 能力 |
+|-------------|------|------|
+| `server-filesystem` | 文件系统访问 | 读取、写入、搜索文件 |
+| `server-postgres` | PostgreSQL 数据库 | SQL 查询、数据操作 |
+| `server-slack` | Slack 集成 | 发送消息、读取频道 |
+| `server-github` | GitHub API | PR 管理、Issue 操作 |
+| `server-git` | Git 操作 | 提交、分支管理 |
+| `server-brave-search` | 网页搜索 | 实时信息检索 |
+| `server-memory` | 持久记忆 | 跨会话记忆存储 |
+
+### 6.4 MCP 工作流程
+
+```mermaid
+graph LR
+    ClaudeCode[Claude Code] <--> MCP[MCP Protocol]
+    MCP --> FS[Filesystem Server]
+    MCP --> DB[(Database Server)]
+    MCP --> API[API Server]
+```
+
+---
+
+## 🧬 七、Memory（记忆）
+
+### 7.1 概念定义
+
+Memory 通过 `CLAUDE.md` 文件和 `@path` 导入实现**持久化上下文**，让 Claude Code 跨会话保持记忆。
+
+### 7.2 CLAUDE.md 文件
+
+```markdown
+# CLAUDE.md - 项目记忆文件
+
+## 项目概述
+这是一个使用 React + Node.js 构建的电商平台。
+
+## 技术栈
+- 前端：React 18, TypeScript, TailwindCSS
+- 后端：Node.js, Express, PostgreSQL
+- 部署：Docker, AWS ECS
+
+## 代码规范
+- 使用 ESLint + Prettier
+- 提交信息遵循 Conventional Commits
+- 所有 API 响应使用统一的 JSON 格式
+
+## 架构决策记录（ADR）
+- ADR-001: 使用 PostgreSQL 而非 MongoDB（2024-01-15）
+- ADR-002: 采用 JWT 而非 Session（2024-02-20）
+
+## 关键联系人
+- 前端负责人：@Alice
+- 后端负责人：@Bob
+```
+
+### 7.3 @path 导入机制
+
+```markdown
+# 在对话中导入记忆
+
+@CLAUDE.md              # 导入项目全局记忆
+@docs/api-guidelines.md  # 导入 API 规范文档
+@context/team-rules.md   # 导入团队规则
+```
+
+### 7.4 记忆类型对比
+
+| 类型 | 文件位置 | 用途 | 生命周期 |
+|------|----------|------|----------|
+| `CLAUDE.md` | 项目根目录 | 项目级全局记忆 | 永久 |
+| `.claude/commands/*.md` | .claude 目录 | 命令级知识 | 永久 |
+| `.claude/memory/` | .claude 目录 | 结构化记忆库 | 永久 |
+| Session Memory | 内存 | 当前会话临时记忆 | 会话结束 |
+
+---
+
+## ⚙️ 八、Configuration & Extensions（配置与扩展）
+
+### 8.1 Plugins（插件）
+
+#### 8.1.1 概念定义
+
+Plugins 将 Skills、子 Agent、Hooks、MCP、LSP 打包分发，可发布到市场供他人使用。
+
+#### 8.1.2 插件结构
+
+```
+my-plugin/
+├── SKILL.md              # 插件主定义
+├── .claude/
+│   ├── agents/           # 插件专属子 Agent
+│   ├── commands/         # 插件专属命令
+│   └── hooks/            # 插件专属钩子
+├── .mcp.json             # 插件专属 MCP 配置
+└── package.json          # 插件元数据
+```
+
+#### 8.1.3 package.json 示例
+
+```json
+{
+  "name": "claude-code-security-plugin",
+  "version": "1.0.0",
+  "description": "安全审查插件",
+  "author": "Your Name",
+  "keywords": ["security", "code-review"],
+  "claudeCode": {
+    "plugins": ["security-agent", "security-hooks"],
+    "dependencies": ["@mcp/server-github"]
+  }
+}
+```
+
+### 8.2 Settings（设置）
+
+#### 8.2.1 配置层级
+
+```json
+// .claude/settings.json - 项目级
+{
+  "permissions": {
+    "allow": ["Read", "Glob", "Grep"],
+    "deny": ["Bash", "Write"]
+  },
+  "model": "claude-opus-4-5",
+  "output": {
+    "style": "detailed",
+    "showThinking": true
+  }
+}
+```
+
+#### 8.2.2 设置项速查
+
+| 分类 | 设置项 | 说明 | 可选值 |
+|------|--------|------|--------|
+| 权限 | `permissions.allow` | 允许的工具列表 | Read, Write, Edit, Bash... |
+| 权限 | `permissions.deny` | 禁止的工具列表 | 同上 |
+| 模型 | `model` | 使用的模型 | claude-opus-4-5, sonnet-4-5... |
+| 输出 | `output.style` | 输出样式 | concise, detailed, minimal |
+| 输出 | `output.showThinking` | 显示思考过程 | true, false |
+| 沙盒 | `sandbox.enabled` | 启用沙盒隔离 | true, false |
+
+### 8.3 Status Line（状态栏）
+
+```json
+// .claude/settings.json
+{
+  "statusLine": {
+    "show": true,
+    "left": ["contextUsed", "model"],
+    "right": ["cost", "sessionTime"]
+  }
+}
+```
+
+**状态栏元素说明：**
+
+| 元素 | 显示内容 |
+|------|----------|
+| `contextUsed` | 上下文使用量（如 45%） |
+| `model` | 当前模型名称 |
+| `cost` | 当前会话估算成本 |
+| `sessionTime` | 会话运行时长 |
+
+### 8.4 Checkpointing（检查点）
+
+#### 8.4.1 概念
+
+Git 自动跟踪文件编辑，支持**回滚**到之前的状态。
+
+#### 8.4.2 常用回滚操作
+
+| 操作 | 命令 | 用途 |
+|------|------|------|
+| 快速回滚 | `Esc Esc` | 撤销最近一次修改 |
+| 回滚指定步数 | `/rewind 3` | 回滚 3 步 |
+| 查看历史 | `/history` | 查看编辑历史 |
+| 恢复文件 | `/restore <file>` | 恢复指定文件 |
+
+### 8.5 Devcontainers（开发容器）
+
+#### 8.5.1 概念
+
+预配置的开发容器，提供**安全隔离**的标准化开发环境。
+
+#### 8.5.2 .devcontainer.json 示例
+
+```json
+{
+  "name": "Claude Code Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "docker-in-docker": "true"
+  },
+  "forwardPorts": [3000, 5432]
+}
+```
+
+---
+
+## 🔥 九、热门 / 新功能详解
+
+### 9.1 Routines（云端自动化）
+
+**概念**：云端自动化任务，支持定时、API 调用、GitHub 事件触发，即使机器关闭也能运行。
+
+```json
+{
+  "routine": {
+    "name": "daily-code-review",
+    "trigger": {
+      "type": "schedule",
+      "cron": "0 9 * * *"
+    },
+    "task": "对昨日代码变更进行自动化审查",
+    "notifications": {
+      "slack": "#code-reviews"
+    }
+  }
+}
+```
+
+### 9.2 Ultrareview（云端多 Agent 代码审查）
+
+**概念**：云端多 Agent 并行代码审查，每个发现都独立验证。
+
+| 阶段 | 时长 | 成本 | 说明 |
+|------|------|------|------|
+| 并行审查 | 5-8 min | ~$3-10 | 多个 Agent 同时审查不同维度 |
+| 独立验证 | 2-5 min | ~$2-10 | 每个发现独立验证确认 |
+| 报告生成 | ~1 min | 固定 | 汇总所有审查结果 |
+
+### 9.3 Auto Mode（自动授权模式）
+
+**概念**：后台安全分类器替代手动授权，Claude Code **自行判断**操作的安全性。
+
+- 高安全风险操作 → 仍需手动确认
+- 中低风险操作 → 自动执行
+- 可配置信任级别阈值
+
+### 9.4 Agent Teams（多智能体协作）
+
+**概念**：多个 Agent 并行处理同一代码库，共享任务协调器。
+
+### 9.5 Scheduled Tasks（定时任务）
+
+**概念**：循环执行提示词，支持本地（7天）和云端（永久）两种模式。
+
+```json
+{
+  "scheduledTask": {
+    "name": "weekly-dependency-update",
+    "schedule": "0 2 * * 1",
+    "localRetention": "7d",
+    "prompt": "检查项目依赖更新，生成更新报告",
+    "notifyOn": ["failure", "completed-with-changes"]
+  }
+}
+```
+
+### 9.6 Chrome 扩展
+
+**概念**：浏览器自动化扩展，用于测试 Web 应用、自动填表、数据提取。
+
+**主要功能：**
+- 录制和回放用户操作
+- 自动填写表单
+- 提取网页数据
+- 截图和页面截图对比
+
+### 9.7 Claude Code Web（云端运行）
+
+**概念**：在云端基础设施运行任务，适合**长任务**和 **PR 自动修复**。
+
+| 特性 | 本地运行 | 云端运行 |
+|------|---------|---------|
+| 稳定性 | 依赖本地网络 | ✅ 云端保障 |
+| 长任务 | 可能中断 | ✅ 持续运行 |
+| 成本 | 仅 API 费用 | API + 云服务费 |
+| 适用场景 | 快速验证 | 大型重构 |
+
+### 9.8 Code Review (beta)
+
+**概念**：GitHub App，多 Agent PR 分析，自动捕获 Bug 和安全漏洞。
+
+**工作流程：**
+1. PR 创建/更新触发审查
+2. 多个 Agent 并行分析代码
+3. 验证每个发现
+4. 生成结构化审查报告
+5. 评论自动添加到 PR
+
+### 9.9 Voice Dictation（语音输入）
+
+**概念**：语音转文字输入，适合快速记录想法和长文撰写。
+
+**使用方式：**
+- 按住快捷键说话
+- 自动转换为文本
+- 支持中英文混杂
+- 实时修正语法
+
+---
+
+## 💡 十、核心价值总结
+
+### 10.1 从 Vibe Coding 到 Agentic Engineering
+
+### 10.2 各概念如何协同工作
+
+| 问题 | 解决方案 |
+|------|----------|
+| 如何让 AI 记住项目规范？ | → Memory (CLAUDE.md) |
+| 如何自动化代码审查流程？ | → Commands + Hooks |
+| 如何并行处理多个任务？ | → Subagents |
+| 如何连接外部工具和 API？ | → MCP Servers |
+| 如何封装和复用最佳实践？ | → Skills + Plugins |
+| 如何保证长时间运行任务？ | → Routines + Cloud |
+| 如何让多个 Agent 协作？ | → Agent Teams |
+
+### 10.3 学习路径建议
+
+> 🗺️ **推荐学习顺序：**
+>
+> 1. **入门** → Commands（斜杠命令）→ 体会 AI 辅助编程
+> 2. **进阶** → Memory + Skills → 建立持久化知识
+> 3. **协作** → Subagents + Hooks → 多任务并行自动化
+> 4. **集成** → MCP Servers → 深度连接外部系统
+> 5. **工程化** → Plugins + Settings → 团队最佳实践复用
+
+---
+
+## 📖 十一、资源链接
+
+| 资源 | 链接 |
+|------|------|
+| GitHub 仓库 | [shanraisshan/claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice) |
+| Claude Code 官方文档 | [docs.anthropic.com/claude-code](https://docs.anthropic.com/claude-code) |
+| Claude Code 市场 | [claude.com/marketplace](https://claude.com/marketplace) |
+
+---
+
+> 💬 文档整理自开源项目，如需深入学习建议直接阅读原仓库。祝学习愉快！
+
+---
+
+*文档整理时间：2026-04-21*
