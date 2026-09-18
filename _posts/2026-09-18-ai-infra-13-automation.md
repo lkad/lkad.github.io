@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 13 章 自动化运维与版本管理"
-date:   2026-09-18 14:00:00 +0800
+date:   2026-09-17 14:00:00 +0800
 categories: AI-Infra
 tags: [运维自动化, 版本管理, CUDA, NCCL, 健康巡检]
 ---

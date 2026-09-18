@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 2 章 分布式存储：Ceph 核心"
-date:   2026-09-18 08:30:00 +0800
+date:   2026-09-17 08:30:00 +0800
 categories: AI-Infra
 tags: [Ceph, 存储, CRUSH, BlueStore, 分布式]
 ---

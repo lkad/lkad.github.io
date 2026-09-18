@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 3 章 存储选型：JuiceFS / 3FS / Lustre 对比"
-date:   2026-09-18 09:00:00 +0800
+date:   2026-09-17 09:00:00 +0800
 categories: AI-Infra
 tags: [存储, JuiceFS, 3FS, Lustre, 选型]
 ---

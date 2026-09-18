@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 8 章 调度与多租户：Slurm / Volcano / Kueue"
-date:   2026-09-18 11:30:00 +0800
+date:   2026-09-17 11:30:00 +0800
 categories: AI-Infra
 tags: [Slurm, Volcano, Kueue, 调度, 多租户, Gang Scheduling]
 ---

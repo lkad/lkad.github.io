@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 5 章 NCCL 与集合通信"
-date:   2026-09-18 10:00:00 +0800
+date:   2026-09-17 10:00:00 +0800
 categories: AI-Infra
 tags: [NCCL, AllReduce, 集合通信, 分布式训练]
 ---

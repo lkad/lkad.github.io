@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 7 章 推理框架：vLLM 与 PagedAttention"
-date:   2026-09-18 11:00:00 +0800
+date:   2026-09-17 11:00:00 +0800
 categories: AI-Infra
 tags: [vLLM, PagedAttention, KV Cache, 推理, LLM 推理]
 ---

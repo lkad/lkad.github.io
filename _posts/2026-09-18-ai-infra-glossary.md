@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "附录：术语与符号表"
-date:   2026-09-18 15:00:00 +0800
+date:   2026-09-17 15:00:00 +0800
 categories: AI-Infra
 tags: [术语表, 符号约定]
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "序章：AI Infra 工程师实战（GPU 集群方向）"
-date:   2026-09-18 14:30:00 +0800
+date:   2026-09-17 14:30:00 +0800
 categories: AI-Infra
 tags: [序章, 教材导读, GPU 集群]
 ---

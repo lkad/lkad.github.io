@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 10 章 故障演练与 STAR 叙事"
-date:   2026-09-18 12:30:00 +0800
+date:   2026-09-17 12:30:00 +0800
 categories: AI-Infra
 tags: [故障演练, 混沌工程, STAR, 复盘]
 ---

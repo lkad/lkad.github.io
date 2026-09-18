@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 6 章 GPU 硬件与 CUDA/DCGM"
-date:   2026-09-18 10:30:00 +0800
+date:   2026-09-17 10:30:00 +0800
 categories: AI-Infra
 tags: [GPU, CUDA, DCGM, 硬件, Xid]
 ---

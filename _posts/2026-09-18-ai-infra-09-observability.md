@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 9 章 可观测性与告警"
-date:   2026-09-18 12:00:00 +0800
+date:   2026-09-17 12:00:00 +0800
 categories: AI-Infra
 tags: [Prometheus, PromQL, 告警, 可观测性, Grafana]
 ---

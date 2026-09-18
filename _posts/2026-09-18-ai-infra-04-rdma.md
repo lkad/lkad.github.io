@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "第 4 章 RDMA 与无损网络"
-date:   2026-09-18 09:30:00 +0800
+date:   2026-09-17 09:30:00 +0800
 categories: AI-Infra
 tags: [RDMA, RoCE, PFC, ECN, DCQCN, 无损网络]
 ---
