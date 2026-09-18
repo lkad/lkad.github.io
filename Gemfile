@@ -4,6 +4,9 @@ source "https://rubygems.org"
 
 gem "jekyll-theme-chirpy", "~> 5.6", ">= 5.6.1"
 
+# Ruby 3.4 dropped bigdecimal from default gems; liquid 4.0.4 requires it.
+gem "bigdecimal"
+
 group :test do
   gem "html-proofer", "~> 3.18"
 end
