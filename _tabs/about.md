@@ -6,7 +6,7 @@ order: 4
 
 ## 关于我
 
-干了十几年网络运维和 SRE/DevOps，现在正在往 AI Infra 那边转。
+最早是做网络的，后来转 SRE/DevOps，目前正在往 AI Infra 上面转。
 
 网络的底子是早年做骨干网时打的——BGP/OSPF/MPLS 这些是基本功。后来接触到 RDMA 和无损网络，PFC、ECN、DCQCN 这套东西第一次接触时很惊艳，原来数据中心网络还能这么玩。再后来做 SRE，Ceph、Slurm、K8s、Prometheus 一路用下来，故障复盘写了无数次。
 
