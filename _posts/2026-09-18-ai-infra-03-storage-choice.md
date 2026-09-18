@@ -4,6 +4,8 @@ title:  "第 3 章 存储选型：JuiceFS / 3FS / Lustre 对比"
 date:   2026-09-17 09:00:00 +0800
 categories: AI-Infra
 tags: [存储, JuiceFS, 3FS, Lustre, 选型]
+description: "用 IO 模式 × 规模 × 成本框架做存储选型：JuiceFS、3FS、Lustre、Ceph 对比，附推理场景（突发+长尾 IO）的选型建议。"
+author: lkad
 ---
 
 

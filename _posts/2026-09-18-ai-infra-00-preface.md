@@ -4,6 +4,8 @@ title:  "序章：AI Infra 工程师实战（GPU 集群方向）"
 date:   2026-09-17 14:30:00 +0800
 categories: AI-Infra
 tags: [序章, 教材导读, GPU 集群]
+description: "教材开篇：写给有 5-8 年 Linux/存储/网络背景、准备转型 AI Infra（GPU 集群方向）的工程师，讲清全书主线与使用方法。"
+author: lkad
 ---
 
 

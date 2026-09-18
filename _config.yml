@@ -14,16 +14,19 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: lkad 的运维与 AI Infra 笔记 # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: 网络/SRE/DevOps 转型 AI Infra 的实战记录 # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+  干了十几年网络运维和 SRE/DevOps，目前正在往 AI Infra 上面转。本博客
+  记录 GPU 集群（CUDA/DCGM/vLLM）、RDMA 与无损网络（PFC/ECN/DCQCN）、
+  分布式存储（Ceph/JuiceFS）、集合通信（NCCL）、调度（Slurm/Volcano/Kueue）
+  等主题的实战经验与故障复盘，每篇文章都配数字、配命令、可复算可复现。
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: ""
+url: "https://blog.lkad.net"
 
 github:
   username: lkad # change to your GitHub username
@@ -34,16 +37,28 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
-  fediverse_handle: # fill in your fediverse handle. E.g. "@username@domain.com"
+  name: lkad # TODO: 改成你的真实姓名
+  email: # TODO: 填邮箱，例如 contact@blog.lkad.net
+  fediverse_handle: # 填入 fediverse handle，例如 "@you@mas.to"
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/username # change to your GitHub homepage
+    - https://twitter.com/lkad # TODO: 确认 twitter handle
+    - https://github.com/lkad
     # Uncomment below to add more social links
-    # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
+    # - https://mas.to/@username
+    # - https://zhihu.com/people/username
+    # - https://space.bilibili.com/uid
+
+# Site Verification Settings
+# 在 Google Search Console / Bing Webmaster / 百度站长平台 注册后，把验证串填这里
+webmaster_verifications:
+  google: # TODO: Google Search Console 验证串
+  bing: # TODO: Bing Webmaster 验证串
+  alexa: # 已废弃，不填
+  yandex: # Yandex 站长工具
+  baidu: # TODO: 百度站长平台验证串
+  facebook: # Facebook Domain Verification
 
 # Site Verification Settings
 webmaster_verifications:
@@ -58,25 +73,26 @@ webmaster_verifications:
 # The end of `jekyll-seo-tag` settings
 
 # Web Analytics Settings
+# 推荐 GoatCounter：免费、无 cookie、GitHub Pages 友好。被 adblock 拦截的风险存在。
 analytics:
   google:
-    id: # fill in your Google Analytics ID
+    id: # 暂时不接 GA4，国内访问容易被拦截
   goatcounter:
-    id: # fill in your GoatCounter ID
+    id: # TODO: 在 https://www.goatcounter.com 注册后填入站点 ID
   umami:
-    id: # fill in your Umami ID
-    domain: # fill in your Umami domain
+    id:
+    domain:
   matomo:
-    id: # fill in your Matomo ID
-    domain: # fill in your Matomo domain
+    id:
+    domain:
   cloudflare:
-    id: # fill in your Cloudflare Web Analytics token
+    id:
   fathom:
-    id: # fill in your Fathom Site ID
+    id:
 
 # Page views settings
 pageviews:
-  provider: # now only supports 'goatcounter'
+  provider: goatcounter # 与上面 goatcounter 同源
 
 # Prefer color scheme setting.
 #
@@ -103,7 +119,8 @@ avatar:
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
-social_preview_image: # string, local or CORS resources
+# TODO: 用 assets/img/social-preview.png (1200×630) 替换占位图（README 末尾有说明）
+social_preview_image: /assets/img/social-preview.png
 
 # boolean type, the global switch for TOC in posts.
 toc: true
@@ -120,25 +137,25 @@ actions:
 
 comments:
   # Global switch for the post-comment system. Keeping it empty means disabled.
-  provider: # [disqus | utterances | giscus]
+  provider: giscus # [disqus | utterances | giscus]
   # The provider options are as follows:
   disqus:
-    shortname: # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+    shortname: # Giscus 启用后可留空
   # utterances settings › https://utteranc.es/
   utterances:
-    repo: # <gh-username>/<repo>
+    repo: # Giscus 启用后可留空
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: # <gh-username>/<repo>
-    repo_id:
-    category:
-    category_id:
-    mapping: # optional, default to 'pathname'
-    strict: # optional, default to '0'
-    input_position: # optional, default to 'bottom'
-    lang: # optional, default to the value of `site.lang`
-    reactions_enabled: # optional, default to the value of `1`
+    repo: lkad/lkad.github.io # TODO: 改成你的 GitHub 仓库
+    repo_id: # TODO: 在 giscus.app 配置后填入
+    category: Announcements # 评论落在 Discussions 的哪个分类
+    category_id: # TODO: 在 giscus.app 配置后填入
+    mapping: pathname # optional, default to 'pathname'
+    strict: 0 # optional, default to '0'
+    input_position: bottom # optional, default to 'bottom'
+    lang: zh-CN # optional, default to the value of `site.lang`
+    reactions_enabled: 1 # optional, default to the value of `1`
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:

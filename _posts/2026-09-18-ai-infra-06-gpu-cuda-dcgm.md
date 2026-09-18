@@ -4,6 +4,8 @@ title:  "第 6 章 GPU 硬件与 CUDA/DCGM"
 date:   2026-09-17 10:30:00 +0800
 categories: AI-Infra
 tags: [GPU, CUDA, DCGM, 硬件, Xid]
+description: "GPU 硬件与监控：H100 与 A100 规格对比、DCGM 关键指标解读、Xid 错误码定位，以及\"利用率上不去\"的成因树。"
+author: lkad
 ---
 
 

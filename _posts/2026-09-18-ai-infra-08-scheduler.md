@@ -4,6 +4,8 @@ title:  "第 8 章 调度与多租户：Slurm / Volcano / Kueue"
 date:   2026-09-17 11:30:00 +0800
 categories: AI-Infra
 tags: [Slurm, Volcano, Kueue, 调度, 多租户, Gang Scheduling]
+description: "三大调度器对比：Slurm（HPC 老牌）、Volcano（K8s 批处理）、Kueue（K8s 队列），讲清 Gang/Fair-share/Preemption 的工程权衡。"
+author: lkad
 ---
 
 

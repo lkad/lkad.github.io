@@ -4,6 +4,8 @@ title:  "第 12 章 面试冲刺：高频题与答题框架"
 date:   2026-09-17 13:30:00 +0800
 categories: AI-Infra
 tags: [面试, 答题框架, 三段式]
+description: "面试冲刺：用\"结论先行 → 原理支撑 → 量化示例\"三段式回答高频 AI Infra 面试题，附对比框架应对追问。"
+author: lkad
 ---
 
 

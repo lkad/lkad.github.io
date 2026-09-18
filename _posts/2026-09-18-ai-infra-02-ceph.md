@@ -4,6 +4,8 @@ title:  "第 2 章 分布式存储：Ceph 核心"
 date:   2026-09-17 08:30:00 +0800
 categories: AI-Infra
 tags: [Ceph, 存储, CRUSH, BlueStore, 分布式]
+description: "Ceph 三块核心机制：CRUSH 数据分布、PG 计算与调优、BlueStore 落盘性能，含副本 3 与 EC(k,m) 的空间效率数学。"
+author: lkad
 ---
 
 

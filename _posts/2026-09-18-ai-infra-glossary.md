@@ -4,6 +4,8 @@ title:  "附录：术语与符号表"
 date:   2026-09-17 15:00:00 +0800
 categories: AI-Infra
 tags: [术语表, 符号约定]
+description: "AI Infra 全书术语与符号表：收录 IO 栈、存储、网络、GPU、推理、调度、监控等领域的中英术语与缩写约定。"
+author: lkad
 ---
 
 

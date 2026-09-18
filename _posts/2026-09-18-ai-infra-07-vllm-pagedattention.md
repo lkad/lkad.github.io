@@ -4,6 +4,8 @@ title:  "第 7 章 推理框架：vLLM 与 PagedAttention"
 date:   2026-09-17 11:00:00 +0800
 categories: AI-Infra
 tags: [vLLM, PagedAttention, KV Cache, 推理, LLM 推理]
+description: "推理框架 vLLM 内部机制：PagedAttention 如何把 KV cache 显存利用率从 40% 提到 90%，Continuous Batching 如何提升吞吐。"
+author: lkad
 ---
 
 

@@ -4,6 +4,8 @@ title:  "第 13 章 自动化运维与版本管理"
 date:   2026-09-17 14:00:00 +0800
 categories: AI-Infra
 tags: [运维自动化, 版本管理, CUDA, NCCL, 健康巡检]
+description: "自动化运维与版本管理：Python/Shell 健康巡检工具建设，以及驱动 / CUDA / NCCL 版本对齐的实战方法。"
+author: lkad
 ---
 
 

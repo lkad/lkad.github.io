@@ -4,6 +4,8 @@ title:  "第 10 章 故障演练与 STAR 叙事"
 date:   2026-09-17 12:30:00 +0800
 categories: AI-Infra
 tags: [故障演练, 混沌工程, STAR, 复盘]
+description: "故障演练（混沌工程）与复盘：如何主动注入故障、度量 MTTD/MTTR、把一次真实故障讲成结构化的 STAR 面试故事。"
+author: lkad
 ---
 
 

@@ -4,6 +4,8 @@ title:  "第 1 章 Linux 内核 IO 栈与 VFS"
 date:   2026-09-17 08:00:00 +0800
 categories: AI-Infra
 tags: [Linux, IO, VFS, Page Cache, 内核]
+description: "建立\"数据从磁盘到进程\"的底层心智：VFS、page cache、block layer、dirty page 调优，以及用 fio/strace 定位 IO 瓶颈。"
+author: lkad
 ---
 
 
