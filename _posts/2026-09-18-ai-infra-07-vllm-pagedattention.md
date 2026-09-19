@@ -4,6 +4,7 @@ title:  "第 7 章 推理框架：vLLM 与 PagedAttention"
 date:   2026-09-17 11:00:00 +0800
 categories: AI-Infra
 tags: [vLLM, PagedAttention, KV Cache, 推理, LLM 推理]
+mermaid: true
 description: "推理框架 vLLM 内部机制：PagedAttention 如何把 KV cache 显存利用率从 40% 提到 90%，Continuous Batching 如何提升吞吐。"
 author: lkad
 ---
@@ -62,12 +63,12 @@ flowchart TB
         P3["Seq 3:<br/>Pointer Map:<br/>[N4, N6, N8]"]
     end
 
-    style O1 fill:#faa
-    style O2 fill:#faa
-    style O3 fill:#faa
-    style N1 fill:#9f9
-    style N2 fill:#9f9
-    style N3 fill:#9f9
+    style O1 fill:#faa,color:#000
+    style O2 fill:#faa,color:#000
+    style O3 fill:#faa,color:#000
+    style N1 fill:#9f9,color:#000
+    style N2 fill:#9f9,color:#000
+    style N3 fill:#9f9,color:#000
 ```
 
 

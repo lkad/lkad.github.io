@@ -4,6 +4,7 @@ title:  "第 5 章 NCCL 与集合通信"
 date:   2026-09-17 10:00:00 +0800
 categories: AI-Infra
 tags: [NCCL, AllReduce, 集合通信, 分布式训练]
+mermaid: true
 description: "NCCL 集合通信的内核：Ring AllReduce 数据量推导、busbw 计算，以及 NCCL hang 的系统化排查步骤。"
 author: lkad
 ---
@@ -108,9 +109,9 @@ flowchart LR
     E2 -.->|Reduce-Scatter| F2
     E3 -.->|Reduce-Scatter| F3
 
-    style AllReduceAfter fill:#9f9
-    style AllGatherAfter fill:#fc6
-    style ReduceScatterAfter fill:#f96
+    style AllReduceAfter fill:#9f9,color:#000
+    style AllGatherAfter fill:#fc6,color:#000
+    style ReduceScatterAfter fill:#f96,color:#000
 ```
 
 
@@ -155,8 +156,8 @@ flowchart TB
     B2 --> B3[...]
     B3 --> B4[Step N-1: AllGather<br/>完成]
 
-    style A5 fill:#fc6
-    style B4 fill:#9f9
+    style A5 fill:#fc6,color:#000
+    style B4 fill:#9f9,color:#000
 ```
 
 

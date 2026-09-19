@@ -4,6 +4,7 @@ title:  "第 9 章 可观测性与告警"
 date:   2026-09-17 12:00:00 +0800
 categories: AI-Infra
 tags: [Prometheus, PromQL, 告警, 可观测性, Grafana]
+mermaid: true
 description: "用 Prometheus + PromQL 搭建 AI 集群可观测性：GPU/网络/存储指标采集、告警规则设计（含 recording rule 与 for 时长）。"
 author: lkad
 ---

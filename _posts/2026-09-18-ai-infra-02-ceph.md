@@ -4,6 +4,7 @@ title:  "第 2 章 分布式存储：Ceph 核心"
 date:   2026-09-17 08:30:00 +0800
 categories: AI-Infra
 tags: [Ceph, 存储, CRUSH, BlueStore, 分布式]
+mermaid: true
 description: "Ceph 三块核心机制：CRUSH 数据分布、PG 计算与调优、BlueStore 落盘性能，含副本 3 与 EC(k,m) 的空间效率数学。"
 author: lkad
 ---
@@ -206,9 +207,9 @@ flowchart TD
     J --> K[replicate 到 replicas]
     K --> L[Client 收到 ack]
 
-    style C fill:#f9a
-    style H fill:#9f9
-    style L fill:#9cf
+    style C fill:#f9a,color:#000
+    style H fill:#9f9,color:#000
+    style L fill:#9cf,color:#000
 ```
 
 
@@ -285,12 +286,12 @@ flowchart TB
 
     After --> Summary
 
-    style Event fill:#faa
-    style R4 fill:#9f9
-    style N1 fill:#9f9
-    style N2 fill:#9cf
-    style N3 fill:#9cf
-    style Summary fill:#fc6
+    style Event fill:#faa,color:#000
+    style R4 fill:#9f9,color:#000
+    style N1 fill:#9f9,color:#000
+    style N2 fill:#9cf,color:#000
+    style N3 fill:#9cf,color:#000
+    style Summary fill:#fc6,color:#000
 ```
 
 

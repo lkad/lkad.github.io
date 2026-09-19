@@ -4,6 +4,7 @@ title:  "第 4 章 RDMA 与无损网络"
 date:   2026-09-17 09:30:00 +0800
 categories: AI-Infra
 tags: [RDMA, RoCE, PFC, ECN, DCQCN, 无损网络]
+mermaid: true
 description: "RDMA 与无损网络入门：IB/RoCE 两种实现、PFC/ECN/DCQCN 三件套原理，以及它们各自的风险与调优点。"
 author: lkad
 ---

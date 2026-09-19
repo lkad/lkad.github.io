@@ -4,6 +4,7 @@ title:  "第 11 章 综合实战：一次完整的集群故障排查演练"
 date:   2026-09-17 13:00:00 +0800
 categories: AI-Infra
 tags: [故障排查, 综合实战, 分层假设]
+mermaid: true
 description: "综合实战：用\"分层假设法\"把 IO 栈、存储、网络、GPU、推理、调度、监控串成完整的排障闭环。"
 author: lkad
 ---
